@@ -1,7 +1,7 @@
 #ifndef CTEST_CTEST_H
 #define CTEST_CTEST_H
 
-typedef void(*cutil_test_function)();
+#include "internal/test.h"
 
 void ctest_init();
 void ctest_destroy();

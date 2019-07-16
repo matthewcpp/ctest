@@ -1,139 +1,16 @@
 #include "ctest/ctest.h"
 
+#include "ctest/internal/util.h"
+#include "ctest/internal/system.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-/*******************************************/
-/* Various utility functions. */
-char *_str_cpy(const char *src) {
-	size_t len = strlen(src) + 1;
-	char *s = malloc(len);
-	if (s == NULL)
-		return NULL;
-	return (char *)memcpy(s, src, len);
-}
 
-int _cutil_testing_string_cmp(const void* a, const void* b) {
-	return strcmp(*(const char**)a, *(const char**)b);
-}
-
-/*******************************************/
-/* _cutil_test_entry describes a single unit test. */
-typedef struct _cutil_test_entry {
-	cutil_test_function test_func;
-	char *test_name;
-	unsigned int test_result;
-	char *test_message;
-
-	struct _cutil_test_entry* next;
-} _cutil_test_entry;
-
-_cutil_test_entry *_cutil_testing_entry_create(const char *test_name, cutil_test_function test_func) {
-	_cutil_test_entry *test_entry = malloc(sizeof(_cutil_test_entry));
-
-	test_entry->test_func = test_func;
-	test_entry->test_name = _str_cpy(test_name);
-	test_entry->test_result = 0;
-	test_entry->test_message = NULL;
-	test_entry->next = NULL;
-
-	return test_entry;
-}
-
-void _cutil_testing_entry_destroy(_cutil_test_entry *test_entry) {
-	if (test_entry->test_name) {
-		free(test_entry->test_name);
-	}
-
-	if (test_entry->test_message) {
-		free(test_entry->test_message);
-	}
-
-	free(test_entry);
-}
-
-/*******************************************/
-/* _cutil_test_suite describes a collection of related unit tests. */
-typedef struct _cutil_test_suite {
-	char* name;
-	cutil_test_function before_each;
-	cutil_test_function after_each;
-	_cutil_test_entry* _tests;
-
-	struct _cutil_test_suite* next;
-} _cutil_test_suite;
-
-_cutil_test_suite *_cutil_testing_suite_create(const char *name) {
-	_cutil_test_suite * suite = malloc(sizeof(_cutil_test_suite));
-
-	suite->name = _str_cpy(name);
-	suite->_tests = NULL;
-	suite->before_each = NULL;
-	suite->after_each = NULL;
-	suite->next = NULL;
-	return suite;
-}
-void _cutil_testing_suite_destroy(_cutil_test_suite *test_suite) {
-	_cutil_test_entry *current_test = test_suite->_tests;
-	_cutil_test_entry *free_ptr = NULL;
-
-	if (test_suite->name) {
-		free(test_suite->name);
-	}
-
-	while (current_test) {
-		free_ptr = current_test;
-		current_test = current_test->next;
-		_cutil_testing_entry_destroy(free_ptr);
-	}
-
-	free(test_suite);
-}
-
-/*******************************************/
-/* _cutil_test_suite top level object containing a collection of suites. */
-typedef struct _cutil_test_system {
-	_cutil_test_suite *_suites;
-	_cutil_test_entry *_current_test;
-	_cutil_test_suite *_current_suite;
-	
-	char** test_filters;
-	int test_filter_count;
-} _cutil_test_system;
 
 _cutil_test_system* test_system = NULL;
 
-void _cutil_testing_system_init(void) {
-	test_system->_suites = NULL;
-	test_system->_current_test = NULL;
-	test_system->_current_suite = NULL;
-
-	test_system->test_filters = NULL;
-	test_system->test_filter_count = 0;
-}
-
-void _cutil_testing_system_destroy(void) {
-	_cutil_test_suite *current_suite = test_system->_suites;
-	_cutil_test_suite *free_ptr = NULL;
-
-	if (test_system->test_filters) {
-		int i;
-		for (i = 0; i < test_system->test_filter_count; i++) {
-			free(test_system->test_filters[i]);
-		}
-
-		free(test_system->test_filters);
-	}
-
-	while (current_suite) {
-		free_ptr = current_suite;
-		current_suite = current_suite->next;
-		_cutil_testing_suite_destroy(free_ptr);
-	}
-
-	free(test_system);
-}
 
 /*******************************************/
 /* Implementation for main testing interface. */
@@ -141,13 +18,13 @@ void _cutil_testing_system_destroy(void) {
 void ctest_init() {
 	if (!test_system) {
 		test_system = malloc(sizeof(_cutil_test_system));
-		_cutil_testing_system_init();
+		_cutil_testing_system_init(test_system);
 	}
 }
 
 void ctest_destroy() {
 	if (test_system) {
-        _cutil_testing_system_destroy();
+        _cutil_testing_system_destroy(test_system);
 		test_system = NULL;
 	}
 }
