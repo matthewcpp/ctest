@@ -3,11 +3,11 @@
 
 #include <stdlib.h>
 
-_cutil_test_entry *_cutil_testing_entry_create(const char *test_name, cutil_test_function test_func) {
-    _cutil_test_entry *test_entry = malloc(sizeof(_cutil_test_entry));
+_ctest_unit_test *_cutil_testing_entry_create(const char *test_name, ctest_test_func test_func) {
+    _ctest_unit_test *test_entry = malloc(sizeof(_ctest_unit_test));
 
     test_entry->test_func = test_func;
-    test_entry->test_name = _str_cpy(test_name);
+    test_entry->test_name = _cutil_strdup(test_name);
     test_entry->test_result = 0;
     test_entry->test_message = NULL;
     test_entry->next = NULL;
@@ -15,7 +15,7 @@ _cutil_test_entry *_cutil_testing_entry_create(const char *test_name, cutil_test
     return test_entry;
 }
 
-void _cutil_testing_entry_destroy(_cutil_test_entry *test_entry) {
+void _cutil_testing_entry_destroy(_ctest_unit_test *test_entry) {
     if (test_entry->test_name) {
         free(test_entry->test_name);
     }

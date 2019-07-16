@@ -9,7 +9,7 @@
 
 
 
-_cutil_test_system* test_system = NULL;
+_ctest_system* test_system = NULL;
 
 
 /*******************************************/
@@ -17,7 +17,7 @@ _cutil_test_system* test_system = NULL;
 
 void ctest_init() {
 	if (!test_system) {
-		test_system = malloc(sizeof(_cutil_test_system));
+		test_system = malloc(sizeof(_ctest_system));
 		_cutil_testing_system_init(test_system);
 	}
 }
@@ -30,7 +30,7 @@ void ctest_destroy() {
 }
 
 void ctest_suite(const char *name) {
-	_cutil_test_suite* new_suite;
+	_ctest_suite* new_suite;
 
     ctest_init();
 
@@ -46,8 +46,8 @@ void ctest_suite(const char *name) {
 	test_system->_current_test = NULL;
 }
 
-void _ctest_add_test(const char *test_name, cutil_test_function test_func) {
-	_cutil_test_entry* test_entry;
+void _ctest_add_test(const char *test_name, ctest_test_func test_func) {
+	_ctest_unit_test* test_entry;
     ctest_init();
 
 	if (!test_system->_current_suite) {
@@ -65,7 +65,7 @@ void _ctest_add_test(const char *test_name, cutil_test_function test_func) {
 	test_system->_current_test = test_entry;
 }
 
-int ctest_suite_before_each(cutil_test_function func) {
+int ctest_suite_before_each(ctest_test_func func) {
 	if (test_system->_current_suite) {
 		test_system->_current_suite->before_each = func;
 
@@ -76,7 +76,7 @@ int ctest_suite_before_each(cutil_test_function func) {
 	}
 }
 
-int ctest_suite_after_each(cutil_test_function func) {
+int ctest_suite_after_each(ctest_test_func func) {
 	if (test_system->_current_suite) {
 		test_system->_current_suite->after_each = func;
 
@@ -92,11 +92,11 @@ char** _cutil_testing_get_suite_names(const char* str, int* count) {
 	int token_size = 1;
 
 	char** tokens = malloc(sizeof(char*) * token_size);
-	char* search_str = _str_cpy(str);
+	char* search_str = _cutil_strdup(str);
 
 	char *token = strtok(search_str, ";");
 	while (token) {
-		tokens[token_count] = _str_cpy(token);
+		tokens[token_count] = _cutil_strdup(token);
 
 		token_count += 1;
 
@@ -110,7 +110,7 @@ char** _cutil_testing_get_suite_names(const char* str, int* count) {
 
 	free(search_str);
 
-	qsort(tokens, token_count, sizeof(char*), _cutil_testing_string_cmp);
+	qsort(tokens, token_count, sizeof(char*), _cutil_str_cmp);
 
 	*count = token_count;
 	return tokens;
@@ -145,7 +145,7 @@ int _cutil_testing_str_find(const char* needle, char** haystack, int start, int 
 	}
 }
 
-int _cutil_testing_should_run_test_suite(_cutil_test_suite * test_suite) {
+int _cutil_testing_should_run_test_suite(_ctest_suite * test_suite) {
 	if (test_system->test_filters) {
 		return _cutil_testing_str_find(test_suite->name, test_system->test_filters, 0, test_system->test_filter_count - 1);
 	}
@@ -154,7 +154,7 @@ int _cutil_testing_should_run_test_suite(_cutil_test_suite * test_suite) {
 	}
 }
 
-int _cutil_testing_process_suite(_cutil_test_suite *current_suite, int* out_pass_count, int* out_fail_count) {
+int _cutil_testing_process_suite(_ctest_suite *current_suite, int* out_pass_count, int* out_fail_count) {
 	int test_pass_count = 0;
 	int test_fail_count = 0;
 

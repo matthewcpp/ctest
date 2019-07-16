@@ -3,19 +3,19 @@
 
 #include <stdlib.h>
 
-_cutil_test_suite *_cutil_testing_suite_create(const char *name) {
-    _cutil_test_suite * suite = malloc(sizeof(_cutil_test_suite));
+_ctest_suite *_cutil_testing_suite_create(const char *name) {
+    _ctest_suite * suite = malloc(sizeof(_ctest_suite));
 
-    suite->name = _str_cpy(name);
+    suite->name = _cutil_strdup(name);
     suite->_tests = NULL;
     suite->before_each = NULL;
     suite->after_each = NULL;
     suite->next = NULL;
     return suite;
 }
-void _cutil_testing_suite_destroy(_cutil_test_suite *test_suite) {
-    _cutil_test_entry *current_test = test_suite->_tests;
-    _cutil_test_entry *free_ptr = NULL;
+void _cutil_testing_suite_destroy(_ctest_suite *test_suite) {
+    _ctest_unit_test *current_test = test_suite->_tests;
+    _ctest_unit_test *free_ptr = NULL;
 
     if (test_suite->name) {
         free(test_suite->name);

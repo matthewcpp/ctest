@@ -1,18 +1,18 @@
 #ifndef CTEST_CTEST_H
 #define CTEST_CTEST_H
 
-#include "internal/test.h"
+typedef void(*ctest_test_func)();
 
 void ctest_init();
 void ctest_destroy();
 
 void ctest_suite(const char *name);
-int ctest_suite_before_each(cutil_test_function func);
-int ctest_suite_after_each(cutil_test_function func);
+int ctest_suite_before_each(ctest_test_func func);
+int ctest_suite_after_each(ctest_test_func func);
 void ctest_config_set_filter(const char *filter_str);
 int ctest_run();
 
-void _ctest_add_test(const char *test_name, cutil_test_function test_func);
+void _ctest_add_test(const char *test_name, ctest_test_func test_func);
 
 int _ctest_predicate_true(const char *exppression_str, int result);
 int _ctest_predicate_false(const char *exppression_str, int result);

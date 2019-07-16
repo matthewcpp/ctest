@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *_str_cpy(const char *src) {
+char* _cutil_strdup(const char *src) {
     size_t len = strlen(src) + 1;
     char *s = malloc(len);
     if (s == NULL)
@@ -11,6 +11,6 @@ char *_str_cpy(const char *src) {
     return (char *)memcpy(s, src, len);
 }
 
-int _cutil_testing_string_cmp(const void* a, const void* b) {
+int _cutil_str_cmp(const void* a, const void* b) {
     return strcmp(*(const char**)a, *(const char**)b);
 }
