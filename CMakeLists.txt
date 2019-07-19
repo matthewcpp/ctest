@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
+project (ctest C)
+
 include (cmake/util_functions.cmake)
 
 set(ctest_sources
