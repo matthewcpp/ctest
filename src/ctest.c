@@ -233,107 +233,107 @@ int ctest_run() {
 
 int _ctest_predicate_true(const char *exppression_str, int result) {
 	if (!result) {
-		printf("Assertion: Expected: %s to be true\n", exppression_str);
+		printf("Expected: %s to be true\n", exppression_str);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 	else {
-		return 0;
+		return 1;
 	}
 }
 
 int _ctest_predicate_false(const char *exppression_str, int result) {
 	if (result) {
-		printf("Assertion: Expected: %s to be false\n", exppression_str);
+		printf("Expected: %s to be false\n", exppression_str);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 	else {
-		return 0;
+		return 1;
 	}
 }
 
-int _ctest_predicate_int_eq(const char *exppression_str, int expected, int result) {
-	if (expected != result) {
-		printf("Assertion: %s Expected: %i Actual: %i\n", exppression_str, expected, result);
+int _ctest_predicate_int_eq(const char *exppression_str, int expected, int actual) {
+	if (expected != actual) {
+		printf("Expected: %s to be %i\nActual: %i\n", exppression_str, expected, actual);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 	else {
-		return 0;
+		return 1;
 	}
 }
 
-int _ctest_predicate_int_lt(const char *exppression_str, int expected, int result) {
-	if (result >= expected) {
-		printf("Assertion: %s < %i. Actual: %i\n", exppression_str, expected, result);
+int _ctest_predicate_int_lt(const char *exppression_str, int expected, int actual) {
+	if (actual >= expected) {
+		printf("Expected: %s < %i\nActual: %i\n", exppression_str, expected, actual);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 	else {
-		return 0;
+		return 1;
 	}
 }
 
-int _ctest_predicate_int_gt(const char *exppression_str, int expected, int result) {
-	if (result <= expected) {
-		printf("Assertion: %s > %i. Actual: %i\n", exppression_str, expected, result);
+int _ctest_predicate_int_gt(const char *exppression_str, int expected, int actual) {
+	if (actual <= expected) {
+		printf("Expected: %s > %i\nActual: %i\n", exppression_str, expected, actual);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 	else {
-		return 0;
+		return 1;
 	}
 }
 
-int _ctest_predicate_float_eq(const char *exppression_str, float expected, float result) {
-	if (expected != result) {
-		printf("Assertion: %s Expected: %f Actual: %f\n", exppression_str, expected, result);
+int _ctest_predicate_float_eq(const char *exppression_str, float expected, float actual) {
+	if (expected != actual) {
+		printf("Expected: %s == %f\nActual: %f\n", exppression_str, expected, actual);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 	else {
-		return 0;
+		return 1;
 	}
 }
 
-int _ctest_predicate_ptr_eq(const char *exppression_str, void* expected, void* result) {
-	if (expected != result) {
-		printf("Assertion: %s Expected: %p Actual: %p\n", exppression_str, expected, result);
+int _ctest_predicate_ptr_eq(const char *exppression_str, void* expected, void* actual) {
+	if (expected != actual) {
+		printf("Expected: %s to be %p\nActual: %p\n", exppression_str, expected, actual);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 	else {
-		return 0;
+		return 1;
 	}
 }
 
 int _ctest_predicate_ptr_null(const char *exppression_str, void* ptr) {
 	if (ptr != NULL) {
-		printf("Assertion: %s Expected: NULL Actual: %p\n", exppression_str, ptr);
+		printf("Expected: %s to be NULL\nActual: %p\n", exppression_str, ptr);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 
-	return 0;
+	return 1;
 }
 
 int _ctest_predicate_ptr_not_null(const char *exppression_str, void* ptr) {
 	if (ptr == NULL) {
-		printf("Assertion:  Expected: %s to be non-NULL\n", exppression_str);
+		printf("Expected: %s to be non-NULL\nActual: %p", exppression_str, ptr);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 
-	return 0;
+	return 1;
 }
 
 int _ctest_predicate_ptr_neq(const char *ptr1_str, void* ptr1, void* ptr2) {
 	if (ptr1 == ptr2) {
-		printf("Assertion:  Expected: %s to not equal %p\n", ptr1_str, ptr2);
+		printf("Expected: %s to not equal %p\n", ptr1_str, ptr2);
 		test_system->_current_test->test_result = 1;
-		return 1;
+		return 0;
 	}
 
-	return 0;
+	return 1;
 }
