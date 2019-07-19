@@ -16,4 +16,4 @@ typedef struct _ctest_suite {
 _ctest_suite *_cutil_testing_suite_create(const char *name);
 void _cutil_testing_suite_destroy(_ctest_suite *test_suite);
 
-#endif //CTEST_SUITE_H
+#endif
