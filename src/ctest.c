@@ -231,6 +231,11 @@ int ctest_run() {
 		return 0;
 }
 
+void _ctest_unconditional_test_result(int result) {
+	test_system->_current_test->test_result = result;
+}
+
+
 int _ctest_predicate_true(const char *exppression_str, int result) {
 	if (!result) {
 		printf("Expected: %s to be true\n", exppression_str);
