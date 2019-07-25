@@ -25,6 +25,20 @@ int _ctest_predicate_ptr_neq(const char *ptr1_str, void* ptr1, void* ptr2);
 int _ctest_predicate_ptr_null(const char *exppression_str, void* ptr);
 int _ctest_predicate_ptr_not_null(const char *exppression_str, void* ptr);
 
+void _ctest_unconditional_test_result(int result);
+
+/**
+Unconditionally passes the current test.  Assert and expect macros that fail after this method is called will not affect the status of the test.
+*/
+#define CTEST_PASS_TEST() \
+	_ctest_unconditional_test_result(0)
+
+/**
+Unconditionally fails the current test.
+*/
+#define CTEST_FAIL_TEST() \
+	_ctest_unconditional_test_result(1)
+
 #define CTEST_ADD_TEST(FUNC) \
 	_ctest_add_test(#FUNC, &FUNC)
 
@@ -36,6 +50,15 @@ int _ctest_predicate_ptr_not_null(const char *exppression_str, void* ptr);
 
 #define CTEST_EXPECT_INT_EQ(EXP, VAL) \
 	_ctest_predicate_int_eq(#EXP, (int)VAL, (int)(EXP))
+
+#define CTEST_EXPECT_INT_LT(EXP, VAL) \
+	_ctest_predicate_int_lt(#EXP, (int)VAL, (int)(EXP))
+
+#define CTEST_EXPECT_INT_GT(EXP, VAL) \
+	_ctest_predicate_int_gt(#EXP, (int)VAL, (int)(EXP))
+
+#define CTEST_EXPECT_FLOAT_EQ(EXP, VAL) \
+	_ctest_predicate_float_eq(#EXP, VAL, (EXP))
 
 #define CTEST_EXPECT_PTR_EQ(EXP, VAL) \
 	_ctest_predicate_ptr_eq(#EXP, VAL, (EXP))
