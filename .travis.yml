@@ -1,0 +1,41 @@
+language: c
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          packages:
+          - valgrind
+      script:
+        - mkdir build
+        - cd build
+        - cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=1
+        - cmake --build . && ctest --overwrite MemoryCheckCommandOptions="--leak-check=full --error-exitcode=1" -T memcheck
+      after_failure:
+        - cat Testing/Temporary/MemoryChecker.*.log
+        - sleep 3
+      env:
+        - BUILD_NAME=valgrind
+    - os: linux
+      compiler: gcc
+      script:
+        - mkdir build
+        - cd build
+        - cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=1
+        - cmake --build . && ctest
+    - os: linux
+      compiler: clang
+      script:
+        - mkdir build
+        - cd build
+        - cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=1
+        - cmake --build . && ctest
+    - os: osx
+      compiler: clang
+      script:
+        - mkdir build
+        - cd build
+        - cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=1
+        - cmake --build . && ctest
