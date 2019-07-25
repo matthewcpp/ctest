@@ -16,7 +16,7 @@ void test_expect_true_fails_test() {
 void test_assert_true_fails_test() {
 	CTEST_ASSERT_TRUE(0);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_false_passes_test() {
@@ -30,7 +30,7 @@ void test_expect_false_fails_test() {
 void test_assert_false_fails_test() {
 	CTEST_ASSERT_FALSE(1);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_int_eq_passes_test() {
@@ -44,7 +44,7 @@ void test_expect_int_eq_fails_test() {
 void test_assert_int_eq_fails_test() {
 	CTEST_ASSERT_INT_EQ(1, 2);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_int_lt_passes_test() {
@@ -58,7 +58,7 @@ void test_expect_int_lt_fails_test() {
 void test_assert_int_lt_fails_test() {
 	CTEST_ASSERT_INT_LT(1, 0);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_int_gt_passes_test() {
@@ -72,7 +72,7 @@ void test_expect_int_gt_fails_test() {
 void test_assert_int_gt_fails_test() {
 	CTEST_ASSERT_INT_EQ(2, 3);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_float_eq_passes_test() {
@@ -86,7 +86,7 @@ void test_expect_float_eq_fails_test() {
 void test_assert_float_eq_fails_test() {
 	CTEST_ASSERT_INT_EQ(1.0f, 2.0f);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_ptr_eq_passes_test() {
@@ -106,7 +106,7 @@ void test_assert_ptr_eq_fails_test() {
 	int i2 = 2;
 	CTEST_ASSERT_PTR_EQ(&i1, &i2);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_ptr_neq_passes_test() {
@@ -124,7 +124,7 @@ void test_assert_ptr_neq_fails_test() {
 	int i = 1;
 	CTEST_ASSERT_PTR_NEQ(&i, &i);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_ptr_null_passes_test() {
@@ -143,7 +143,7 @@ void test_assert_ptr_null_fails_test() {
 	int i = 1;
 	CTEST_ASSERT_PTR_NULL(&i);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 void test_expect_ptr_not_null_passes_test() {
@@ -165,7 +165,7 @@ void test_assert_ptr_not_null_fails_test() {
 	int* i = NULL;
 	CTEST_ASSERT_PTR_NOT_NULL(i);
 
-	CTEST_PASS_TEST();  // should not get here
+	CTEST_PASS_TEST();  /* should not get here */
 }
 
 int run_test(const char* name, ctest_test_func test_func) {
