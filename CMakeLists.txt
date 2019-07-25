@@ -19,7 +19,7 @@ set_compiler_options(ctest)
 target_include_directories(ctest PUBLIC include)
 
 if (BUILD_TESTS)
-    message("Building Tests.")
+    message("Building Test Projects")
     enable_testing()
     add_subdirectory (test)
 endif()
