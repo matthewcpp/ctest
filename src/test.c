@@ -32,7 +32,7 @@ _ctest_unit_test *_ctest_unit_test_create_with_fixture(const char* fixture_name,
 	size_t test_name_buffer_size = fixture_name_length + test_name_length + 2;
 
 	test_entry->test_name = malloc(test_name_buffer_size);
-	snprintf(test_entry->test_name, test_name_buffer_size, "%s.%s", fixture_name, test_name);
+	cutil_snprintf_func(test_entry->test_name, test_name_buffer_size, "%s.%s", fixture_name, test_name);
 
     test_entry->test_func = NULL;
     test_entry->fixture_test_runner = fixture_test_runner;
