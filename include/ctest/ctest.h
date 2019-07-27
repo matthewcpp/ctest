@@ -1,7 +1,10 @@
 #ifndef CTEST_CTEST_H
 #define CTEST_CTEST_H
 
+#include <stdlib.h>
+
 typedef void(*ctest_test_func)();
+
 
 void ctest_init();
 void ctest_destroy();
@@ -26,6 +29,41 @@ int _ctest_predicate_ptr_null(const char *exppression_str, void* ptr);
 int _ctest_predicate_ptr_not_null(const char *exppression_str, void* ptr);
 
 void _ctest_unconditional_test_result(int result);
+
+
+/*
+A Generic fixture test is an internal pointer used to store fixtre tests that are added to the system.
+These typeless function pointers are stored alongside a fixture runner function whose job it is to cast
+them to the appropriate type before running them.
+*/
+typedef void(*_ctest_generic_fixture_test)(void*);
+
+/*
+A Fixture test runner function receives pointer to the fixture test and cast it the correct function pointer type
+It will create the fixture, call the setup function, run the fixture test, call the teardown function, then delete the fixture
+Runner functions are defined automatically by the CTEST_FIXTURE macro.
+*/
+typedef void(*_ctest_fixture_test_runner)(_ctest_generic_fixture_test);
+
+void _ctest_add_fixture_test(_ctest_fixture_test_runner test_runner, const char* fixture_name, const char* test_name, _ctest_generic_fixture_test test);
+
+#define CTEST_FIXTURE(name, type, setup_func, teardown_func) \
+typedef void(*_ctest_fixture_test_func_##name)(type*); \
+void _ctest_fixture_test_runner_##name(_ctest_generic_fixture_test test_func) { \
+    _ctest_fixture_test_func_##name fixture_test = (_ctest_fixture_test_func_##name)test_func; \
+    type* fixture = malloc(sizeof(type)); \
+    setup_func(fixture); \
+    fixture_test(fixture); \
+    teardown_func(fixture); \
+    free(fixture); \
+} \
+void _ctest_add_fixture_test_##name(const char* test_name, _ctest_fixture_test_func_##name test_func){ \
+    _ctest_add_fixture_test(_ctest_fixture_test_runner_##name, #name, test_name, (_ctest_generic_fixture_test)test_func); \
+}
+
+#define CTEST_ADD_TESTF(name, test) \
+    _ctest_add_fixture_test_##name(#test, &test)
+
 
 /**
 Unconditionally passes the current test.  Assert and expect macros that fail after this method is called will not affect the status of the test.

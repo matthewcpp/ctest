@@ -6,8 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-
+#include <assert.h>
 
 _ctest_system* test_system = NULL;
 
@@ -46,15 +45,13 @@ void ctest_suite(const char *name) {
 	test_system->_current_test = NULL;
 }
 
-void _ctest_add_test(const char *test_name, ctest_test_func test_func) {
-	_ctest_unit_test* test_entry;
-    ctest_init();
+void _add_new_unit_test(_ctest_unit_test* test_entry) {
+	ctest_init();
 
 	if (!test_system->_current_suite) {
-        ctest_suite("Default");
+		ctest_suite("Default");
 	}
 
-	test_entry = _cutil_testing_entry_create(test_name, test_func);
 	if (test_system->_current_test) {
 		test_system->_current_test->next = test_entry;
 	}
@@ -63,6 +60,16 @@ void _ctest_add_test(const char *test_name, ctest_test_func test_func) {
 	}
 
 	test_system->_current_test = test_entry;
+}
+
+void _ctest_add_test(const char *test_name, ctest_test_func test_func) {
+	_ctest_unit_test* test_entry = _ctest_unit_test_create_with_test(test_name, test_func);
+	_add_new_unit_test(test_entry);
+}
+
+void _ctest_add_fixture_test(_ctest_fixture_test_runner test_runner, const char* fixture_name, const char* test_name, _ctest_generic_fixture_test test) {
+	_ctest_unit_test* test_entry = _ctest_unit_test_create_with_fixture(fixture_name, test_name, test_runner, test);
+	_add_new_unit_test(test_entry);
 }
 
 int ctest_suite_before_each(ctest_test_func func) {
@@ -168,7 +175,14 @@ int _cutil_testing_process_suite(_ctest_suite *current_suite, int* out_pass_coun
 			current_suite->before_each();
 		}
 
-		test_system->_current_test->test_func();
+		if (test_system->_current_test->fixture_test_runner) {
+		    assert(test_system->_current_test->fixture_test_func != NULL);
+			test_system->_current_test->fixture_test_runner(test_system->_current_test->fixture_test_func);
+		}
+		else {
+			test_system->_current_test->test_func();
+		}
+		
 
 		if (current_suite->after_each) {
 			current_suite->after_each();
