@@ -24,7 +24,7 @@ void _cutil_testing_suite_destroy(_ctest_suite *test_suite) {
     while (current_test) {
         free_ptr = current_test;
         current_test = current_test->next;
-        _cutil_testing_entry_destroy(free_ptr);
+        _ctest_unit_test_destroy(free_ptr);
     }
 
     free(test_suite);

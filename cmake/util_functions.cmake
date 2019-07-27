@@ -10,3 +10,14 @@ function(set_compiler_options target)
     endif()
 
 endfunction()
+
+function(add_test_executable name sources)
+    add_executable(${name} ${sources})
+    set_compiler_options(${name})
+    target_link_libraries(${name} PUBLIC ctest)
+
+    set_target_properties (${name} PROPERTIES FOLDER "Tests")
+
+    add_test (NAME ${name} COMMAND ${name})
+
+endfunction()
