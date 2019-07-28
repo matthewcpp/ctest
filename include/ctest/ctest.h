@@ -9,24 +9,21 @@ typedef void(*ctest_test_func)();
 void ctest_init();
 void ctest_destroy();
 
-void ctest_suite(const char *name);
-int ctest_suite_before_each(ctest_test_func func);
-int ctest_suite_after_each(ctest_test_func func);
 void ctest_config_set_filter(const char *filter_str);
 int ctest_run();
 
 void _ctest_add_test(const char *test_name, ctest_test_func test_func);
 
-int _ctest_predicate_true(const char *exppression_str, int result);
-int _ctest_predicate_false(const char *exppression_str, int result);
-int _ctest_predicate_int_eq(const char *exppression_str, int expected, int actual);
-int _ctest_predicate_int_gt(const char *exppression_str, int expected, int actual);
-int _ctest_predicate_int_lt(const char *exppression_str, int expected, int actual);
-int _ctest_predicate_float_eq(const char *exppression_str, float expected, float actual);
-int _ctest_predicate_ptr_eq(const char *exppression_str, void* expected, void* actual);
-int _ctest_predicate_ptr_neq(const char *ptr1_str, void* ptr1, void* ptr2);
-int _ctest_predicate_ptr_null(const char *exppression_str, void* ptr);
-int _ctest_predicate_ptr_not_null(const char *exppression_str, void* ptr);
+int _ctest_predicate_true(const char* expression_str, int result);
+int _ctest_predicate_false(const char* expression_str, int result);
+int _ctest_predicate_int_eq(const char* expression_str, int expected, int actual);
+int _ctest_predicate_int_gt(const char* expression_str, int expected, int actual);
+int _ctest_predicate_int_lt(const char* expression_str, int expected, int actual);
+int _ctest_predicate_float_eq(const char* expression_str, float expected, float actual);
+int _ctest_predicate_ptr_eq(const char* expression_str, void* expected, void* actual);
+int _ctest_predicate_ptr_neq(const char* expression_str, void* ptr1, void* ptr2);
+int _ctest_predicate_ptr_null(const char* expression_str, void* ptr);
+int _ctest_predicate_ptr_not_null(const char* expression_str, void* ptr);
 
 void _ctest_unconditional_test_result(int result);
 
