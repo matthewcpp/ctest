@@ -16,24 +16,24 @@ typedef struct {
 
 	ctest_test* current_test;
 	ctest_test_result current_test_result;
-} _ctest_runner;
+} ctest_runner;
 
-_ctest_runner* _ctest_runner_create();
-void _ctest_runner_destroy(_ctest_runner* runner);
-int _ctest_runner_run(_ctest_runner* runner, ctest_test* first_test, ctest_filter* filter);
+ctest_runner* _ctest_runner_create();
+void _ctest_runner_destroy(ctest_runner* runner);
+int _ctest_runner_run_tests(ctest_runner* runner, ctest_test* first_test, ctest_filter* filter);
 
-void ctest_runner_update_test_result(_ctest_runner* runner, int predicate_result);
-void ctest_runner_set_test_result(_ctest_runner* runner, ctest_test_result test_result);
+void ctest_runner_update_test_result(ctest_runner* runner, int predicate_result);
+void ctest_runner_set_test_result(ctest_runner* runner, ctest_test_result test_result);
 
-int ctest_runner_predicate_true(_ctest_runner* runner, const char* expression_str, int result);
-int ctest_runner_predicate_false(_ctest_runner* runner, const char* expression_str, int result);
-int ctest_runner_predicate_int_eq(_ctest_runner* runner, const char* expression_str, int expected, int actual);
-int ctest_runner_predicate_int_lt(_ctest_runner* runner, const char* expression_str, int expected, int actual);
-int ctest_runner_predicate_int_gt(_ctest_runner* runner, const char* expression_str, int expected, int actual);
-int ctest_runner_predicate_float_eq(_ctest_runner* runner, const char* expression_str, float expected, float actual);
-int ctest_runner_predicate_ptr_eq(_ctest_runner* runner, const char* expression_str, void* expected, void* actual);
-int ctest_runner_predicate_ptr_null(_ctest_runner* runner, const char* expression_str, void* ptr);
-int ctest_runner_predicate_ptr_not_null(_ctest_runner* runner, const char* expression_str, void* ptr);
-int ctest_runner_predicate_ptr_neq(_ctest_runner* runner, const char* expression_str, void* ptr1, void* ptr2);
+int ctest_runner_predicate_true(ctest_runner* runner, const char* expression_str, int result);
+int ctest_runner_predicate_false(ctest_runner* runner, const char* expression_str, int result);
+int ctest_runner_predicate_int_eq(ctest_runner* runner, const char* expression_str, int expected, int actual);
+int ctest_runner_predicate_int_lt(ctest_runner* runner, const char* expression_str, int expected, int actual);
+int ctest_runner_predicate_int_gt(ctest_runner* runner, const char* expression_str, int expected, int actual);
+int ctest_runner_predicate_float_eq(ctest_runner* runner, const char* expression_str, float expected, float actual);
+int ctest_runner_predicate_ptr_eq(ctest_runner* runner, const char* expression_str, void* expected, void* actual);
+int ctest_runner_predicate_ptr_null(ctest_runner* runner, const char* expression_str, void* ptr);
+int ctest_runner_predicate_ptr_not_null(ctest_runner* runner, const char* expression_str, void* ptr);
+int ctest_runner_predicate_ptr_neq(ctest_runner* runner, const char* expression_str, void* ptr1, void* ptr2);
 
 #endif

@@ -11,7 +11,7 @@ typedef struct {
     size_t _unit_test_count;
 
 	ctest_filter* filter;
-	_ctest_runner* runner;
+	ctest_runner* runner;
 } ctest_system;
 
 void ctest_system_init(ctest_system* test_system);

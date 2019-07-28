@@ -38,7 +38,7 @@ void ctest_config_set_filter(const char *filter_str) {
 }
 
 int ctest_run() {
-	return _ctest_runner_run(test_system->runner, test_system->unit_test_front, test_system->filter);
+	return _ctest_runner_run_tests(test_system->runner, test_system->unit_test_front, test_system->filter);
 }
 
 void _ctest_unconditional_test_result(int result) {
