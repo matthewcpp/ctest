@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <assert.h>
 
-_ctest_unit_test* _ctest_unit_test_create_with_test(const char* test_name, ctest_test_func test_func) {
-	_ctest_unit_test *test_entry = malloc(sizeof(_ctest_unit_test));
+ctest_test* ctest_test_create_with_function(const char* test_name, ctest_test_func test_func) {
+	ctest_test* test_entry = malloc(sizeof(ctest_test));
 	test_entry->next = NULL;
 
 	test_entry->test_name = _cutil_strdup(test_name);
@@ -18,8 +18,8 @@ _ctest_unit_test* _ctest_unit_test_create_with_test(const char* test_name, ctest
     return test_entry;
 }
 
-_ctest_unit_test* _ctest_unit_test_create_with_fixture(const char* fixture_name, const char* test_name, _ctest_fixture_test_runner fixture_test_runner, _ctest_generic_fixture_test fixture_test_func) {
-	_ctest_unit_test *test_entry = malloc(sizeof(_ctest_unit_test));
+ctest_test* ctest_test_create_with_fixture(const char* fixture_name, const char* test_name, _ctest_fixture_test_runner fixture_test_runner, _ctest_generic_fixture_test fixture_test_func) {
+	ctest_test* test_entry = malloc(sizeof(ctest_test));
 	
 	size_t fixture_name_length = strlen(fixture_name);
 	size_t test_name_length = strlen(test_name);
@@ -36,7 +36,7 @@ _ctest_unit_test* _ctest_unit_test_create_with_fixture(const char* fixture_name,
     return test_entry;
 }
 
-void _ctest_unit_test_destroy(_ctest_unit_test* test) {
+void ctest_test_destroy(ctest_test* test) {
     if (test->test_name) {
         free(test->test_name);
     }
@@ -44,7 +44,7 @@ void _ctest_unit_test_destroy(_ctest_unit_test* test) {
     free(test);
 }
 
-void _ctest_unit_test_run(_ctest_unit_test* test) {
+void ctest_test_run(ctest_test* test) {
 	if (test->fixture_test_runner) {
 		assert(test->fixture_test_func != NULL);
 		test->fixture_test_runner(test->fixture_test_func);

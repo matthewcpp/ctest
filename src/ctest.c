@@ -24,12 +24,12 @@ void ctest_destroy() {
 }
 
 void _ctest_add_test(const char *test_name, ctest_test_func test_func) {
-	_ctest_unit_test* test_entry = _ctest_unit_test_create_with_test(test_name, test_func);
+	ctest_test* test_entry = ctest_test_create_with_function(test_name, test_func);
 	ctest_system_add_test(test_system, test_entry);
 }
 
 void _ctest_add_fixture_test(_ctest_fixture_test_runner test_runner, const char* fixture_name, const char* test_name, _ctest_generic_fixture_test test) {
-	_ctest_unit_test* test_entry = _ctest_unit_test_create_with_fixture(fixture_name, test_name, test_runner, test);
+	ctest_test* test_entry = ctest_test_create_with_fixture(fixture_name, test_name, test_runner, test);
 	ctest_system_add_test(test_system, test_entry);
 }
 

@@ -14,13 +14,13 @@ typedef struct {
     int tests_failed;
     int tests_filtered;
 
-	_ctest_unit_test* current_test;
+	ctest_test* current_test;
 	ctest_test_result current_test_result;
 } _ctest_runner;
 
 _ctest_runner* _ctest_runner_create();
 void _ctest_runner_destroy(_ctest_runner* runner);
-int _ctest_runner_run(_ctest_runner* runner, _ctest_unit_test* first_test, _ctest_filter* filter);
+int _ctest_runner_run(_ctest_runner* runner, ctest_test* first_test, _ctest_filter* filter);
 
 void ctest_runner_update_test_result(_ctest_runner* runner, int predicate_result);
 void ctest_runner_set_test_result(_ctest_runner* runner, ctest_test_result test_result);

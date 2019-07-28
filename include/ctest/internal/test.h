@@ -3,19 +3,19 @@
 
 #include "ctest/ctest.h"
 
-/* _ctest_unit_test describes a single unit test. */
-typedef struct _ctest_unit_test {
+/* ctest_test describes a single unit test. */
+typedef struct ctest_test {
 	_ctest_fixture_test_runner fixture_test_runner;
     _ctest_generic_fixture_test fixture_test_func;
     ctest_test_func test_func;
-    char *test_name;
+    char* test_name;
 
-    struct _ctest_unit_test* next;
-} _ctest_unit_test;
+    struct ctest_test* next;
+} ctest_test;
 
-_ctest_unit_test *_ctest_unit_test_create_with_test(const char* test_name, ctest_test_func test_func);
-_ctest_unit_test *_ctest_unit_test_create_with_fixture(const char* fixture_name, const char* test_name, _ctest_fixture_test_runner fixture_test_runner, _ctest_generic_fixture_test fixture_test_func);
-void _ctest_unit_test_destroy(_ctest_unit_test* test);
-void _ctest_unit_test_run(_ctest_unit_test* test);
+ctest_test* ctest_test_create_with_function(const char* test_name, ctest_test_func test_func);
+ctest_test* ctest_test_create_with_fixture(const char* fixture_name, const char* test_name, _ctest_fixture_test_runner fixture_test_runner, _ctest_generic_fixture_test fixture_test_func);
+void ctest_test_destroy(ctest_test* test);
+void ctest_test_run(ctest_test* test);
 
 #endif

@@ -16,7 +16,7 @@ void _ctest_runner_destroy(_ctest_runner* runner) {
 	free(runner);
 }
 
-int _ctest_runner_run(_ctest_runner* runner, _ctest_unit_test* first_test, _ctest_filter* filter) {
+int _ctest_runner_run(_ctest_runner* runner, ctest_test* first_test, _ctest_filter* filter) {
 	runner->current_test = first_test;
 
 	while (runner->current_test) {
@@ -25,7 +25,7 @@ int _ctest_runner_run(_ctest_runner* runner, _ctest_unit_test* first_test, _ctes
 
 		if (_ctest_filter_should_run_test(filter, runner->current_test->test_name)) {
 			printf("Test: %s\n", runner->current_test->test_name);
-			_ctest_unit_test_run(runner->current_test);
+			ctest_test_run(runner->current_test);
 			runner->tests_ran += 1;
 		}
 		else {
