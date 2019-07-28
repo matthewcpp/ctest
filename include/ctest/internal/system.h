@@ -5,19 +5,18 @@
 #include "ctest/internal/filter.h"
 #include "ctest/internal/runner.h"
 
-/* _ctest_suite top level object containing a collection of suites. */
-typedef struct _ctest_system {
-    _ctest_unit_test* _unit_test_front;
-    _ctest_unit_test* _unit_test_back;
+typedef struct {
+    _ctest_unit_test* unit_test_front;
+    _ctest_unit_test* unit_test_back;
     size_t _unit_test_count;
 
 	_ctest_filter* filter;
 	_ctest_runner* runner;
-} _ctest_system;
+} ctest_system;
 
-void _cutil_testing_system_init(_ctest_system* test_system);
-void _cutil_testing_system_destroy(_ctest_system* test_system);
+void ctest_system_init(ctest_system* test_system);
+void ctest_system_destroy(ctest_system* test_system);
 
-void ctest_system_add_test(_ctest_system* test_system, _ctest_unit_test* test_entry);
+void ctest_system_add_test(ctest_system* test_system, _ctest_unit_test* test_entry);
 
 #endif

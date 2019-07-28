@@ -7,18 +7,18 @@
 #include <stdio.h>
 #include <string.h>
 
-_ctest_system* test_system = NULL;
+ctest_system* test_system = NULL;
 
 void ctest_init() {
 	if (!test_system) {
-		test_system = malloc(sizeof(_ctest_system));
-		_cutil_testing_system_init(test_system);
+		test_system = malloc(sizeof(ctest_system));
+		ctest_system_init(test_system);
 	}
 }
 
 void ctest_destroy() {
 	if (test_system) {
-        _cutil_testing_system_destroy(test_system);
+        ctest_system_destroy(test_system);
 		test_system = NULL;
 	}
 }
@@ -38,7 +38,7 @@ void ctest_config_set_filter(const char *filter_str) {
 }
 
 int ctest_run() {
-	return _ctest_runner_run(test_system->runner, test_system->_unit_test_front, test_system->filter);
+	return _ctest_runner_run(test_system->runner, test_system->unit_test_front, test_system->filter);
 }
 
 void _ctest_unconditional_test_result(int result) {
