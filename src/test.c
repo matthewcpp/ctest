@@ -10,7 +10,7 @@ ctest_test* ctest_test_create_with_function(const char* test_name, ctest_test_fu
 	ctest_test* test_entry = malloc(sizeof(ctest_test));
 	test_entry->next = NULL;
 
-	test_entry->test_name = _cutil_strdup(test_name);
+	test_entry->test_name = ctest_util_strdup(test_name);
     test_entry->test_func = test_func;
     test_entry->fixture_test_runner = NULL;
     test_entry->fixture_test_func = NULL;
@@ -26,7 +26,7 @@ ctest_test* ctest_test_create_with_fixture(const char* fixture_name, const char*
 	size_t test_name_buffer_size = fixture_name_length + test_name_length + 2;
 
 	test_entry->test_name = malloc(test_name_buffer_size);
-	cutil_snprintf_func(test_entry->test_name, test_name_buffer_size, "%s.%s", fixture_name, test_name);
+	ctest_snprintf_func(test_entry->test_name, test_name_buffer_size, "%s.%s", fixture_name, test_name);
 
 	test_entry->next = NULL;
     test_entry->test_func = NULL;

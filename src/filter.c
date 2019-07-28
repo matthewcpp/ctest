@@ -28,7 +28,7 @@ void ctest_filter_parse_string(ctest_filter* filter, const char* filter_str) {
 		filter->filter_count = 0;
 	}
 	else {
-		char* filter_str_cpy = _cutil_strdup(filter_str);
+		char* filter_str_cpy = ctest_util_strdup(filter_str);
 		filter->filters = _ctest_filter_split_filter_string(filter_str_cpy, &filter->filter_count);
 		free(filter_str_cpy);
 	}
@@ -50,11 +50,11 @@ char** _ctest_filter_split_filter_string(const char* str, int* count) {
 	int token_size = 1;
 
 	char** tokens = malloc(sizeof(char*) * token_size);
-	char* search_str = _cutil_strdup(str);
+	char* search_str = ctest_util_strdup(str);
 
 	char *token = strtok(search_str, ";");
 	while (token) {
-		tokens[token_count] = _cutil_strdup(token);
+		tokens[token_count] = ctest_util_strdup(token);
 
 		token_count += 1;
 
@@ -68,7 +68,7 @@ char** _ctest_filter_split_filter_string(const char* str, int* count) {
 
 	free(search_str);
 
-	qsort(tokens, token_count, sizeof(char*), _cutil_str_cmp);
+	qsort(tokens, token_count, sizeof(char*), ctest_util_str_cmp);
 
 	*count = token_count;
 	return tokens;
