@@ -6,13 +6,12 @@
 typedef struct {
 	char** filters;
 	int filter_count;
-} _ctest_filter;
+} ctest_filter;
 
-_ctest_filter* _ctest_filter_create();
-void _ctest_filter_destroy(_ctest_filter* filter);
+ctest_filter* ctest_filter_create();
+void ctest_filter_destroy(ctest_filter* filter);
 
-void ctest_filter_parse_string(_ctest_filter* filter, const char* filter_str);
-
-int _ctest_filter_should_run_test(_ctest_filter* filter, const char* test_name);
+void ctest_filter_parse_string(ctest_filter* filter, const char* filter_str);
+int ctest_filter_should_run_test(ctest_filter* filter, const char* test_name);
 
 #endif

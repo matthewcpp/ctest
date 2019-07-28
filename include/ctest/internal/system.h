@@ -10,7 +10,7 @@ typedef struct {
     ctest_test* unit_test_back;
     size_t _unit_test_count;
 
-	_ctest_filter* filter;
+	ctest_filter* filter;
 	_ctest_runner* runner;
 } ctest_system;
 

@@ -6,21 +6,21 @@
 
 char** _ctest_filter_split_filter_string(const char* str, int* count);
 int _ctest_filter_has_str(const char* needle, char** haystack, int start, int end);
-void ctest_filter_clear(_ctest_filter* filter);
+void ctest_filter_clear(ctest_filter* filter);
 
-_ctest_filter* _ctest_filter_create() {
-	_ctest_filter* filter = calloc(1, sizeof(_ctest_filter));
+ctest_filter* ctest_filter_create() {
+	ctest_filter* filter = calloc(1, sizeof(ctest_filter));
 
 	return filter;
 }
 
-void _ctest_filter_destroy(_ctest_filter* filter) {
+void ctest_filter_destroy(ctest_filter* filter) {
 	ctest_filter_clear(filter);
 
 	free(filter);
 }
 
-void ctest_filter_parse_string(_ctest_filter* filter, const char* filter_str) {
+void ctest_filter_parse_string(ctest_filter* filter, const char* filter_str) {
 	ctest_filter_clear(filter);
 
 	if (filter_str == NULL) {
@@ -34,7 +34,7 @@ void ctest_filter_parse_string(_ctest_filter* filter, const char* filter_str) {
 	}
 }
 
-void ctest_filter_clear(_ctest_filter* filter) {
+void ctest_filter_clear(ctest_filter* filter) {
 	if (filter->filters) {
 		int i;
 		for (i = 0; i < filter->filter_count; i++) {
@@ -74,7 +74,7 @@ char** _ctest_filter_split_filter_string(const char* str, int* count) {
 	return tokens;
 }
 
-int _ctest_filter_should_run_test(_ctest_filter* filter, const char* test_name) {
+int ctest_filter_should_run_test(ctest_filter* filter, const char* test_name) {
 	if (filter->filters) {
 		return _ctest_filter_has_str(test_name, filter->filters, 0, filter->filter_count - 1);
 	}

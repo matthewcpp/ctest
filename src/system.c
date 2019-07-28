@@ -6,7 +6,7 @@ void ctest_system_init(ctest_system* test_system) {
     test_system->unit_test_front = NULL;
     test_system->unit_test_back = NULL;
     test_system->_unit_test_count = 0;
-	test_system->filter = _ctest_filter_create();
+	test_system->filter = ctest_filter_create();
 	test_system->runner = _ctest_runner_create();
 }
 
@@ -20,7 +20,7 @@ void ctest_system_destroy(ctest_system* test_system) {
         ctest_test_destroy(delete_ptr);
     }
 
-	_ctest_filter_destroy(test_system->filter);
+	ctest_filter_destroy(test_system->filter);
 	_ctest_runner_destroy(test_system->runner);
 
 	free(test_system);

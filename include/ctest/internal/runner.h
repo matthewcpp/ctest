@@ -20,7 +20,7 @@ typedef struct {
 
 _ctest_runner* _ctest_runner_create();
 void _ctest_runner_destroy(_ctest_runner* runner);
-int _ctest_runner_run(_ctest_runner* runner, ctest_test* first_test, _ctest_filter* filter);
+int _ctest_runner_run(_ctest_runner* runner, ctest_test* first_test, ctest_filter* filter);
 
 void ctest_runner_update_test_result(_ctest_runner* runner, int predicate_result);
 void ctest_runner_set_test_result(_ctest_runner* runner, ctest_test_result test_result);

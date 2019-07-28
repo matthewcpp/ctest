@@ -16,14 +16,14 @@ void _ctest_runner_destroy(_ctest_runner* runner) {
 	free(runner);
 }
 
-int _ctest_runner_run(_ctest_runner* runner, ctest_test* first_test, _ctest_filter* filter) {
+int _ctest_runner_run(_ctest_runner* runner, ctest_test* first_test, ctest_filter* filter) {
 	runner->current_test = first_test;
 
 	while (runner->current_test) {
 		runner->current_test_result = CTEST_RESULT_NONE;
 		runner->tests_considered += 1;
 
-		if (_ctest_filter_should_run_test(filter, runner->current_test->test_name)) {
+		if (ctest_filter_should_run_test(filter, runner->current_test->test_name)) {
 			printf("Test: %s\n", runner->current_test->test_name);
 			ctest_test_run(runner->current_test);
 			runner->tests_ran += 1;
