@@ -66,13 +66,13 @@ void _ctest_add_fixture_test_##name(const char* test_name, _ctest_fixture_test_f
 Unconditionally passes the current test.  Assert and expect macros that fail after this method is called will not affect the status of the test.
 */
 #define CTEST_PASS_TEST() \
-	_ctest_unconditional_test_result(0)
+	_ctest_unconditional_test_result(1)
 
 /**
 Unconditionally fails the current test.
 */
 #define CTEST_FAIL_TEST() \
-	_ctest_unconditional_test_result(1)
+	_ctest_unconditional_test_result(0)
 
 #define CTEST_ADD_TEST(FUNC) \
 	_ctest_add_test(#FUNC, &FUNC)

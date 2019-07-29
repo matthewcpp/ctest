@@ -70,6 +70,8 @@ void ctest_runner_print_results(ctest_runner* runner) {
 	printf("\n-----------------------------------\n");
 	printf("TestResults:\n");
 	printf("Total Tests: %d\n", runner->tests_considered);
+    printf("Tests Filtered: %d\n", runner->tests_filtered);
+    printf("Tests Ran: %d\n", runner->tests_ran);
 	printf("Tests Passed: %d\n", runner->tests_passed);
 	printf("Tests Failed: %d\n", runner->tests_failed);
 }

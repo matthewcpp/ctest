@@ -10,7 +10,3 @@ char* ctest_util_strdup(const char *src) {
         return NULL;
     return (char *)memcpy(s, src, len);
 }
-
-int ctest_util_str_cmp(const void* a, const void* b) {
-    return strcmp(*(const char**)a, *(const char**)b);
-}

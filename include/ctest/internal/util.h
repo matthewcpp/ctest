@@ -21,6 +21,5 @@ typedef enum {
 } ctest_test_result;
 
 char* ctest_util_strdup(const char *src);
-int ctest_util_str_cmp(const void* a, const void* b);
 
 #endif

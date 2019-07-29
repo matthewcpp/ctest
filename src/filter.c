@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 char** _ctest_filter_split_filter_string(const char* str, int* count);
-int _ctest_filter_has_str(const char* needle, char** haystack, int start, int end);
 void ctest_filter_clear(ctest_filter* filter);
 
 ctest_filter* ctest_filter_create() {
@@ -68,41 +67,27 @@ char** _ctest_filter_split_filter_string(const char* str, int* count) {
 
 	free(search_str);
 
-	qsort(tokens, token_count, sizeof(char*), ctest_util_str_cmp);
-
 	*count = token_count;
 	return tokens;
 }
 
 int ctest_filter_should_run_test(ctest_filter* filter, const char* test_name) {
 	if (filter->filters) {
-		return _ctest_filter_has_str(test_name, filter->filters, 0, filter->filter_count - 1);
+		int i;
+
+		for (i = 0; i < filter->filter_count; i++) {
+			const char* filter_str = filter->filters[i];
+			const char* result = strstr(test_name, filter_str);
+
+			if (result == test_name) {
+				return 1;
+			}
+		}
+
+		return 0;
 	}
 	else {
 		return 1;
 	}
 }
 
-int _ctest_filter_has_str(const char* needle, char** haystack, int start, int end) {
-	int middle = start + ((end - start) / 2);
-	int result = strcmp(needle, haystack[middle]);
-
-	if (end <= start) {
-		if (result == 0) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
-	}
-
-	if (result > 0) {
-		return _ctest_filter_has_str(needle, haystack, middle + 1, end);
-	}
-	else if (result < 0) {
-		return _ctest_filter_has_str(needle, haystack, start, middle - 1);
-	}
-	else {
-		return 1;
-	}
-}
