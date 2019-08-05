@@ -52,9 +52,9 @@ int run_tests_with_filter(const char* filter) {
     ctest_config_set_filter(filter);
 
     CTEST_ADD_TEST(test_0);
-    CTEST_ADD_TESTF(TestFixture1, test_1);
-    CTEST_ADD_TESTF(TestFixture1, test_2);
-    CTEST_ADD_TESTF(TestFixture2, test_3);
+    CTEST_ADD_TEST_F(TestFixture1, test_1);
+    CTEST_ADD_TEST_F(TestFixture1, test_2);
+    CTEST_ADD_TEST_F(TestFixture2, test_3);
 
     result = ctest_run();
 

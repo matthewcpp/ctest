@@ -44,6 +44,7 @@ typedef void(*_ctest_fixture_test_runner)(_ctest_generic_fixture_test);
 
 void _ctest_add_fixture_test(_ctest_fixture_test_runner test_runner, const char* fixture_name, const char* test_name, _ctest_generic_fixture_test test);
 
+
 #define CTEST_FIXTURE(name, type, setup_func, teardown_func) \
 typedef void(*_ctest_fixture_test_func_##name)(type*); \
 void _ctest_fixture_test_runner_##name(_ctest_generic_fixture_test test_func) { \
@@ -58,9 +59,25 @@ void _ctest_add_fixture_test_##name(const char* test_name, _ctest_fixture_test_f
     _ctest_add_fixture_test(_ctest_fixture_test_runner_##name, #name, test_name, (_ctest_generic_fixture_test)test_func); \
 }
 
-#define CTEST_ADD_TESTF(name, test) \
+#define CTEST_ADD_TEST_F(name, test) \
     _ctest_add_fixture_test_##name(#test, &test)
 
+
+typedef void(*_ctest_suite_test_runner)(ctest_test_func);
+void _ctest_add_suite_test(_ctest_suite_test_runner test_runner, const char* suite_name, const char* test_name, ctest_test_func test_func);
+
+#define CTEST_SUITE(name, setup_func, teardown_func) \
+void _ctest_##name_suite_runner(ctest_test_func test_func) { \
+	setup_func(); \
+	test_func(); \
+	teardown_func(); \
+} \
+void _ctest_add_##name_suite_test(const char* test_name, ctest_test_func test_func) { \
+    _ctest_add_suite_test(_ctest_##name_suite_runner, #name, test_name, test_func); \
+} \
+
+#define CTEST_ADD_TEST_S(name, test) \
+    _ctest_add_##name_suite_test(#test, &test);
 
 /**
 Unconditionally passes the current test.  Assert and expect macros that fail after this method is called will not affect the status of the test.

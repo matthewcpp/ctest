@@ -64,8 +64,8 @@ int main (int argc, char** argv) {
 
 	ctest_init();
 
-    CTEST_ADD_TESTF(TestFixture1, TestFixture1Test);
-	CTEST_ADD_TESTF(TestFixture2, TestFixture2Test);
+    CTEST_ADD_TEST_F(TestFixture1, TestFixture1Test);
+	CTEST_ADD_TEST_F(TestFixture2, TestFixture2Test);
 
     result = ctest_run();
 	if (result) {
