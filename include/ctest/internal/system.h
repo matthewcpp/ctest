@@ -1,19 +1,22 @@
 #ifndef CTEST_SYSTEM_H
 #define CTEST_SYSTEM_H
 
-#include "ctest/internal/suite.h"
+#include "ctest/internal/test.h"
+#include "ctest/internal/filter.h"
+#include "ctest/internal/runner.h"
 
-/* _ctest_suite top level object containing a collection of suites. */
-typedef struct _ctest_system {
-    _ctest_suite *_suites;
-    _ctest_unit_test *_current_test;
-    _ctest_suite *_current_suite;
+typedef struct {
+    ctest_test* unit_test_front;
+    ctest_test* unit_test_back;
+    size_t _unit_test_count;
 
-    char** test_filters;
-    int test_filter_count;
-} _ctest_system;
+	ctest_filter* filter;
+	ctest_runner* runner;
+} ctest_system;
 
-void _cutil_testing_system_init(_ctest_system* test_system);
-void _cutil_testing_system_destroy(_ctest_system* test_system);
+void ctest_system_init(ctest_system* test_system);
+void ctest_system_destroy(ctest_system* test_system);
+
+void ctest_system_add_test(ctest_system* test_system, ctest_test* test_entry);
 
 #endif

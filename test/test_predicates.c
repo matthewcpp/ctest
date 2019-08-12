@@ -181,56 +181,62 @@ int run_test(const char* name, ctest_test_func test_func) {
 
 #define TEST_SHOULD_PASS(TEST) \
 	puts(#TEST); \
-	if (run_test(#TEST, &TEST)) return 1
+	if (run_test(#TEST, &TEST)){  \
+		printf("Expected Test: %s to pass but it failed.\n", #TEST); \
+		return 1; \
+	}
 
 #define TEST_SHOULD_FAIL(TEST) \
 	puts(#TEST); \
-	if (!run_test(#TEST, &TEST)) return 1
+	if (!run_test(#TEST, &TEST)) { \
+		printf("Expected Test: %s to fail but it passed.\n", #TEST); \
+		return 1; \
+	}
 
 int main(int argc, char** argv) {
 	(void)argc;
 	(void)argv;
 
-	TEST_SHOULD_PASS(test_expect_true_passes_test);
-	TEST_SHOULD_FAIL(test_expect_true_fails_test);
-	TEST_SHOULD_FAIL(test_assert_true_fails_test);
+	TEST_SHOULD_PASS(test_expect_true_passes_test)
+	TEST_SHOULD_FAIL(test_expect_true_fails_test)
+	TEST_SHOULD_FAIL(test_assert_true_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_false_passes_test);
-	TEST_SHOULD_FAIL(test_expect_false_fails_test);
-	TEST_SHOULD_FAIL(test_assert_false_fails_test);
+	TEST_SHOULD_PASS(test_expect_false_passes_test)
+	TEST_SHOULD_FAIL(test_expect_false_fails_test)
+	TEST_SHOULD_FAIL(test_assert_false_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_int_eq_passes_test);
-	TEST_SHOULD_FAIL(test_expect_int_eq_fails_test);
-	TEST_SHOULD_FAIL(test_assert_int_eq_fails_test);
+	TEST_SHOULD_PASS(test_expect_int_eq_passes_test)
+	TEST_SHOULD_FAIL(test_expect_int_eq_fails_test)
+	TEST_SHOULD_FAIL(test_assert_int_eq_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_int_gt_passes_test);
-	TEST_SHOULD_FAIL(test_expect_int_gt_fails_test);
-	TEST_SHOULD_FAIL(test_assert_int_gt_fails_test);
+	TEST_SHOULD_PASS(test_expect_int_gt_passes_test)
+	TEST_SHOULD_FAIL(test_expect_int_gt_fails_test)
+	TEST_SHOULD_FAIL(test_assert_int_gt_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_int_lt_passes_test);
-	TEST_SHOULD_FAIL(test_expect_int_lt_fails_test);
-	TEST_SHOULD_FAIL(test_assert_int_lt_fails_test);
+	TEST_SHOULD_PASS(test_expect_int_lt_passes_test)
+	TEST_SHOULD_FAIL(test_expect_int_lt_fails_test)
+	TEST_SHOULD_FAIL(test_assert_int_lt_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_float_eq_passes_test);
-	TEST_SHOULD_FAIL(test_expect_float_eq_fails_test);
-	TEST_SHOULD_FAIL(test_assert_float_eq_fails_test);
+	TEST_SHOULD_PASS(test_expect_float_eq_passes_test)
+	TEST_SHOULD_FAIL(test_expect_float_eq_fails_test)
+	TEST_SHOULD_FAIL(test_assert_float_eq_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_ptr_eq_passes_test);
-	TEST_SHOULD_FAIL(test_expect_ptr_eq_fails_test);
-	TEST_SHOULD_FAIL(test_assert_ptr_eq_fails_test);
+	TEST_SHOULD_PASS(test_expect_ptr_eq_passes_test)
+	TEST_SHOULD_FAIL(test_expect_ptr_eq_fails_test)
+	TEST_SHOULD_FAIL(test_assert_ptr_eq_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_ptr_neq_passes_test);
-	TEST_SHOULD_FAIL(test_expect_ptr_neq_fails_test);
-	TEST_SHOULD_FAIL(test_assert_ptr_neq_fails_test);
+	TEST_SHOULD_PASS(test_expect_ptr_neq_passes_test)
+	TEST_SHOULD_FAIL(test_expect_ptr_neq_fails_test)
+	TEST_SHOULD_FAIL(test_assert_ptr_neq_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_ptr_null_passes_test);
-	TEST_SHOULD_FAIL(test_expect_ptr_null_fails_test);
-	TEST_SHOULD_FAIL(test_assert_ptr_null_fails_test);
+	TEST_SHOULD_PASS(test_expect_ptr_null_passes_test)
+	TEST_SHOULD_FAIL(test_expect_ptr_null_fails_test)
+	TEST_SHOULD_FAIL(test_assert_ptr_null_fails_test)
 
-	TEST_SHOULD_PASS(test_expect_ptr_not_null_passes_test);
-	TEST_SHOULD_FAIL(test_expect_ptr_not_null_fails_test1);
-	TEST_SHOULD_FAIL(test_expect_ptr_not_null_fails_test2);
-	TEST_SHOULD_FAIL(test_assert_ptr_not_null_fails_test);
+	TEST_SHOULD_PASS(test_expect_ptr_not_null_passes_test)
+	TEST_SHOULD_FAIL(test_expect_ptr_not_null_fails_test1)
+	TEST_SHOULD_FAIL(test_expect_ptr_not_null_fails_test2)
+	TEST_SHOULD_FAIL(test_assert_ptr_not_null_fails_test)
 
 	puts("All tests passed");
 

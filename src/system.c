@@ -2,33 +2,39 @@
 
 #include <stdlib.h>
 
-void _cutil_testing_system_init(_ctest_system* test_system) {
-    test_system->_suites = NULL;
-    test_system->_current_test = NULL;
-    test_system->_current_suite = NULL;
-
-    test_system->test_filters = NULL;
-    test_system->test_filter_count = 0;
+void ctest_system_init(ctest_system* test_system) {
+    test_system->unit_test_front = NULL;
+    test_system->unit_test_back = NULL;
+    test_system->_unit_test_count = 0;
+	test_system->filter = ctest_filter_create();
+	test_system->runner = _ctest_runner_create();
 }
 
-void _cutil_testing_system_destroy(_ctest_system* test_system) {
-    _ctest_suite *current_suite = test_system->_suites;
-    _ctest_suite *free_ptr = NULL;
+void ctest_system_destroy(ctest_system* test_system) {
+    ctest_test* current_test = test_system->unit_test_front;
 
-    if (test_system->test_filters) {
-        int i;
-        for (i = 0; i < test_system->test_filter_count; i++) {
-            free(test_system->test_filters[i]);
-        }
+    while (current_test) {
+        ctest_test* delete_ptr = current_test;
+        current_test = current_test->next;
 
-        free(test_system->test_filters);
+        ctest_test_destroy(delete_ptr);
     }
 
-    while (current_suite) {
-        free_ptr = current_suite;
-        current_suite = current_suite->next;
-        _cutil_testing_suite_destroy(free_ptr);
-    }
+	ctest_filter_destroy(test_system->filter);
+	_ctest_runner_destroy(test_system->runner);
 
-    free(test_system);
+	free(test_system);
+}
+
+void ctest_system_add_test(ctest_system* test_system, ctest_test* test_entry) {
+	if (test_system->_unit_test_count == 0) {
+		test_system->unit_test_front = test_entry;
+		test_system->unit_test_back = test_entry;
+	}
+	else {
+		test_system->unit_test_back->next = test_entry;
+		test_system->unit_test_back = test_entry;
+	}
+
+	test_system->_unit_test_count += 1;
 }

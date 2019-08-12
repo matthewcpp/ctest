@@ -9,24 +9,21 @@ typedef void(*ctest_test_func)();
 void ctest_init();
 void ctest_destroy();
 
-void ctest_suite(const char *name);
-int ctest_suite_before_each(ctest_test_func func);
-int ctest_suite_after_each(ctest_test_func func);
 void ctest_config_set_filter(const char *filter_str);
 int ctest_run();
 
 void _ctest_add_test(const char *test_name, ctest_test_func test_func);
 
-int _ctest_predicate_true(const char *exppression_str, int result);
-int _ctest_predicate_false(const char *exppression_str, int result);
-int _ctest_predicate_int_eq(const char *exppression_str, int expected, int actual);
-int _ctest_predicate_int_gt(const char *exppression_str, int expected, int actual);
-int _ctest_predicate_int_lt(const char *exppression_str, int expected, int actual);
-int _ctest_predicate_float_eq(const char *exppression_str, float expected, float actual);
-int _ctest_predicate_ptr_eq(const char *exppression_str, void* expected, void* actual);
-int _ctest_predicate_ptr_neq(const char *ptr1_str, void* ptr1, void* ptr2);
-int _ctest_predicate_ptr_null(const char *exppression_str, void* ptr);
-int _ctest_predicate_ptr_not_null(const char *exppression_str, void* ptr);
+int _ctest_predicate_true(const char* expression_str, int result);
+int _ctest_predicate_false(const char* expression_str, int result);
+int _ctest_predicate_int_eq(const char* expression_str, int expected, int actual);
+int _ctest_predicate_int_gt(const char* expression_str, int expected, int actual);
+int _ctest_predicate_int_lt(const char* expression_str, int expected, int actual);
+int _ctest_predicate_float_eq(const char* expression_str, float expected, float actual);
+int _ctest_predicate_ptr_eq(const char* expression_str, void* expected, void* actual);
+int _ctest_predicate_ptr_neq(const char* expression_str, void* ptr1, void* ptr2);
+int _ctest_predicate_ptr_null(const char* expression_str, void* ptr);
+int _ctest_predicate_ptr_not_null(const char* expression_str, void* ptr);
 
 void _ctest_unconditional_test_result(int result);
 
@@ -47,6 +44,7 @@ typedef void(*_ctest_fixture_test_runner)(_ctest_generic_fixture_test);
 
 void _ctest_add_fixture_test(_ctest_fixture_test_runner test_runner, const char* fixture_name, const char* test_name, _ctest_generic_fixture_test test);
 
+
 #define CTEST_FIXTURE(name, type, setup_func, teardown_func) \
 typedef void(*_ctest_fixture_test_func_##name)(type*); \
 void _ctest_fixture_test_runner_##name(_ctest_generic_fixture_test test_func) { \
@@ -61,21 +59,37 @@ void _ctest_add_fixture_test_##name(const char* test_name, _ctest_fixture_test_f
     _ctest_add_fixture_test(_ctest_fixture_test_runner_##name, #name, test_name, (_ctest_generic_fixture_test)test_func); \
 }
 
-#define CTEST_ADD_TESTF(name, test) \
+#define CTEST_ADD_TEST_F(name, test) \
     _ctest_add_fixture_test_##name(#test, &test)
 
+
+typedef void(*_ctest_suite_test_runner)(ctest_test_func);
+void _ctest_add_suite_test(_ctest_suite_test_runner test_runner, const char* suite_name, const char* test_name, ctest_test_func test_func);
+
+#define CTEST_SUITE(name, setup_func, teardown_func) \
+void _ctest_##name_suite_runner(ctest_test_func test_func) { \
+	setup_func(); \
+	test_func(); \
+	teardown_func(); \
+} \
+void _ctest_add_##name_suite_test(const char* test_name, ctest_test_func test_func) { \
+    _ctest_add_suite_test(_ctest_##name_suite_runner, #name, test_name, test_func); \
+} \
+
+#define CTEST_ADD_TEST_S(name, test) \
+    _ctest_add_##name_suite_test(#test, &test);
 
 /**
 Unconditionally passes the current test.  Assert and expect macros that fail after this method is called will not affect the status of the test.
 */
 #define CTEST_PASS_TEST() \
-	_ctest_unconditional_test_result(0)
+	_ctest_unconditional_test_result(1)
 
 /**
 Unconditionally fails the current test.
 */
 #define CTEST_FAIL_TEST() \
-	_ctest_unconditional_test_result(1)
+	_ctest_unconditional_test_result(0)
 
 #define CTEST_ADD_TEST(FUNC) \
 	_ctest_add_test(#FUNC, &FUNC)
