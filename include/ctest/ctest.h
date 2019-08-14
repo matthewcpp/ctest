@@ -1,17 +1,44 @@
 #ifndef CTEST_CTEST_H
 #define CTEST_CTEST_H
 
+/** \file ctest.h */
+
 #include <stdlib.h>
 
+/** 
+Callback for a function test.  
+A function test does not require any parameters and does not need assoicated setup or teardown functionality.
+*/
 typedef void(*ctest_test_func)();
 
-
+/**
+Initializes the testting framework.  
+This method should be called once before any other library function. 
+*/
 void ctest_init();
+
+/**
+Releases all resources used by the testing library.
+After calling this methid, \ref ctest_init should be called again before any subsequent called to library methods.
+*/
 void ctest_destroy();
 
-void ctest_config_set_filter(const char *filter_str);
+/**
+Sets the filter string which is used to determine which tests should be run.
+When a filter is active, a test will only be ran if its name begins with at least one active filter.
+Multiple filters may be specified as a ';' separated list.
+Calling this method multiple times will clear out any previously set filters.
+\param filter_str list of filters to apply to all tests.  Multiple filters are spearated by ';'.
+*/
+void ctest_config_set_filter(const char* filter_str);
+
+/**
+Runs all tests.
+\returns zero if all tests passed, otherwise a non zero value.
+*/
 int ctest_run();
 
+/** \cond PRIVATE */
 void _ctest_add_test(const char *test_name, ctest_test_func test_func);
 
 int _ctest_predicate_true(const char* expression_str, int result);
@@ -26,7 +53,6 @@ int _ctest_predicate_ptr_null(const char* expression_str, void* ptr);
 int _ctest_predicate_ptr_not_null(const char* expression_str, void* ptr);
 
 void _ctest_unconditional_test_result(int result);
-
 
 /*
 A Generic fixture test is an internal pointer used to store fixtre tests that are added to the system.
@@ -43,6 +69,8 @@ Runner functions are defined automatically by the CTEST_FIXTURE macro.
 typedef void(*_ctest_fixture_test_runner)(_ctest_generic_fixture_test);
 
 void _ctest_add_fixture_test(_ctest_fixture_test_runner test_runner, const char* fixture_name, const char* test_name, _ctest_generic_fixture_test test);
+
+/** \endcond */
 
 
 #define CTEST_FIXTURE(name, type, setup_func, teardown_func) \
