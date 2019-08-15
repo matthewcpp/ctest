@@ -1,0 +1,18 @@
+PROJECT_NAME      = "ctest"
+INPUT             =     ../README.md \
+                        ../include/ctest/ctest.h
+USE_MDFILE_AS_MAINPAGE = ../README.md
+GENERATE_LATEX    = NO
+GENERATE_MAN      = NO
+GENERATE_RTF      = NO
+CASE_SENSE_NAMES  = NO
+GENERATE_HTML     = YES
+OUTPUT_DIRECTORY  = _build
+HTML_OUTPUT       = doxygen
+QUIET             = YES
+WARN_IF_UNDOCUMENTED = NO
+HAVE_DOT          = NO
+SOURCE_BROWSER    = NO
+VERBATIM_HEADERS  = NO
+REFERENCES_LINK_SOURCE = NO
+MAX_INITIALIZER_LINES  = 0

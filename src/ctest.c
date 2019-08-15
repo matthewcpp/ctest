@@ -38,7 +38,7 @@ void _ctest_add_suite_test(_ctest_suite_test_runner test_runner, const char* sui
     ctest_system_add_test(test_system, test);
 }
 
-void ctest_config_set_filter(const char *filter_str) {
+void ctest_config_set_filter(const char* filter_str) {
 	ctest_filter_parse_string(test_system->filter, filter_str);
 }
 
